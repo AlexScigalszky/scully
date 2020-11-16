@@ -3,6 +3,7 @@ import { LogSeverity } from './log';
 
 export enum RouteTypes {
   json = 'json',
+  strapi = 'strapi',
   contentFolder = 'contentFolder',
   default = 'default',
 }
@@ -79,6 +80,20 @@ export type RouteTypeJson = {
 } & {
   [paramName: string]: {
     url: string;
+    property: string;
+    headers?: HeadersObject;
+    // A handler to map the results to an array that can then be deepGet-ed
+    resultsHandler?: (raw: any) => any[];
+  };
+};
+
+export type RouteTypeStrapi = {
+  type: RouteTypes.strapi;
+  postRenderers?: (string | symbol)[];
+} & {
+  [paramName: string]: {
+    url: string;
+    query: string;
     property: string;
     headers?: HeadersObject;
     // A handler to map the results to an array that can then be deepGet-ed
